@@ -1,4 +1,4 @@
-# I Can Do It, Do It Yourself
+# 열정만 믿는다
 
 ## TMI Project
 
