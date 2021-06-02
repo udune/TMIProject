@@ -1,6 +1,6 @@
 # TMIProject
 
-TMI Project
+## TMI Project
 
 안녕하세요. 김민찬 입니다.
 
