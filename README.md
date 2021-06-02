@@ -1,4 +1,4 @@
-# TMIProject
+# 할 수 있다 개발자 도전
 
 ## TMI Project
 
