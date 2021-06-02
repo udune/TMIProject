@@ -1,4 +1,4 @@
-# 할 수 있다 개발자 도전
+# I Can Do It, Do It Yourself
 
 ## TMI Project
 
