@@ -2,6 +2,8 @@
 
 ## TMI Project
 
+![Profile](https://user-images.githubusercontent.com/78453968/120595481-6a66a500-c47d-11eb-93df-322a04859899.PNG)
+
 안녕하세요. 김민찬 입니다.
 
 이 프로젝트는 '악기를 연주고 녹음을 하는 방식으로 소리가 쌓이는 과정을 직접 느껴볼 수 있는'
