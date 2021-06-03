@@ -1,16 +1,22 @@
 # 김민찬의 포트폴리오입니다
 
+
 ## TMI Project
+
 
 ![Profile](https://user-images.githubusercontent.com/78453968/120595481-6a66a500-c47d-11eb-93df-322a04859899.PNG)
 
+
 안녕하세요. 김민찬 입니다.
 
-이 프로젝트는 '악기를 연주고 녹음을 하는 방식으로 소리가 쌓이는 과정을 직접 느껴볼 수 있는'
+
+이 프로젝트는 '악기를 연주하고 녹음을 하는 방식으로 소리가 쌓이는 과정을 직접 느껴볼 수 있는'
 악기 연주 콘텐츠를 만들어 본 프로젝트입니다.
 
 
 > 사운드 옥타브 및 타입 변경
+
+
 ```c#
 private string PathFinder(string soundName, int changeNum)
     {
@@ -119,7 +125,10 @@ private AudioClip TypeChange(string resourcePath)
     }
 ```
 
+
 > 레코드 기능
+
+
 ```c#
 public class TriggerEnterEvent
 {
@@ -344,7 +353,9 @@ public class Record : MonoBehaviour
 }
 ```
 
+
 > 컨트롤러의 그랩 및 스케일 변경
+
 
 ```c#
 // Update is called once per frame
@@ -486,7 +497,9 @@ public class Record : MonoBehaviour
 }
 ```
 
+
 > 샘플 오디오 비주얼라이저
+
 
 ```c#
 	void Start () {
