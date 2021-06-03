@@ -56,6 +56,65 @@ private string PathFinder(string soundName, int changeNum)
         return audioClip;
     }
 ```
+```c#
+private AudioClip TypeChange(string resourcePath)
+    {
+        AudioClip soundClip = null;
+
+        soundClip = Resources.Load<AudioClip>(resourcePath);
+
+        if (!soundClip)
+        {
+            return null;
+        }
+
+        return soundClip;
+    }
+
+    private string TypeChangeParsing(string clipName)
+    {
+        char slash = '/';
+        char divide = '_';
+        string[] splite = clipName.Split(divide);
+        for (int i = 0; i < typeInst.Count; i++)
+        {
+            if (typeInst[i] == splite.First())
+            {
+                instName = typeInst[i];
+
+                if (splite[1] == "Grand" || splite[1] == "Classic")
+                {
+                    typeFolder = instName + "Electric";
+                    typeName = "Electric";
+
+                    isClassic = true;
+                    isElectric = false;
+                }
+                else if (splite[1] == "Electric")
+                {
+                    typeFolder = instName + "Classic";
+
+                    if (instName == "Piano")
+                    {
+                        typeName = "Grand";
+                    }
+                    else if (instName == "Guitar" || instName == "Bass")
+                    {
+                        typeName = "Classic";
+                    }
+
+                    isClassic = false;
+                    isElectric = true;
+                }
+            }
+        }
+
+        string resourcePath = path + slash + typeFolder + slash + instName + divide + typeName + divide + splite[2] +
+                       divide + splite[3];
+
+        return resourcePath;
+    }
+    ```
 >   > soundManager를 통해 동적으로 생성된 500여개의 사운드를 dictionary로 담아
 >   > 옥타브 변경 시 12단계를 기준으로 바뀌게 했고
 >   > 타입 변경 시 리소스의 이름을 쪼개서 분별하는 식으로 작업했습니다.
