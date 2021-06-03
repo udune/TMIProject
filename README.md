@@ -7,6 +7,12 @@
 ![Profile](https://user-images.githubusercontent.com/78453968/120595481-6a66a500-c47d-11eb-93df-322a04859899.PNG)
 
 
+[시연영상 전체 기능 보기](https://youtu.be/4c7q10VifzI)
+
+
+[시연영상 핵심 기능 보기](https://youtu.be/HP3NkPqteMw)
+
+
 안녕하세요. 김민찬 입니다.
 
 
