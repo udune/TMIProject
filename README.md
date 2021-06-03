@@ -114,7 +114,8 @@ private AudioClip TypeChange(string resourcePath)
 
         return resourcePath;
     }
-    ```
+```
+
 >   > soundManager를 통해 동적으로 생성된 500여개의 사운드를 dictionary로 담아
 >   > 옥타브 변경 시 12단계를 기준으로 바뀌게 했고
 >   > 타입 변경 시 리소스의 이름을 쪼개서 분별하는 식으로 작업했습니다.
