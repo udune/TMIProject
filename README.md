@@ -23,7 +23,10 @@
 
 > 사운드 옥타브 및 타입 변경
 
-
+<details>
+<summary>코드 보기</summary>
+<div markdown="1">
+	
 ```c#
 private string PathFinder(string soundName, int changeNum)
     {
@@ -132,9 +135,14 @@ private AudioClip TypeChange(string resourcePath)
     }
 ```
 
+</div>
+</details>
 
 > 레코드 기능
 
+<details>
+<summary>코드 보기</summary>
+<div markdown="1">
 
 ```c#
 public class TriggerEnterEvent
@@ -359,10 +367,17 @@ public class Record : MonoBehaviour
     }
 }
 ```
+	
+</div>
+</details>
 
-
+	
 > 컨트롤러의 그랩 및 스케일 변경
 
+
+<details>
+<summary>코드 보기</summary>
+<div markdown="1">	
 
 ```c#
 // Update is called once per frame
@@ -503,9 +518,15 @@ public class Record : MonoBehaviour
     }
 }
 ```
-
+</div>
+</details>
+	
 > 배경 효과
 
+<details>
+<summary>코드 보기</summary>
+<div markdown="1">	
+	
 ```c#
 [SerializeField] private static SoundBandManager instance = null;
     public static SoundBandManager Instance => instance;
@@ -583,10 +604,14 @@ public class Record : MonoBehaviour
         }
     }
 ```
-
+</div>
+</details>
 
 > 샘플 오디오 비주얼라이저
 
+<details>
+<summary>코드 보기</summary>
+<div markdown="1">
 
 ```c#
 	void Start () {
@@ -724,3 +749,5 @@ public class Record : MonoBehaviour
 	}
 }
 ```
+</div>
+</details>
