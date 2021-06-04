@@ -26,7 +26,187 @@
 <summary>코드 보기</summary>
 <div markdown="1">
 
-	
+```c#
+======== 사운드 팩토리 ========
+
+public class SoundFactory : MonoBehaviour
+{
+    Dictionary<string, GameObject> soundFileCache = new Dictionary<string, GameObject>();
+
+    public GameObject Load(string resourcePath)
+    {
+        GameObject go = null;
+
+        if (soundFileCache.ContainsKey(resourcePath))
+        {
+            go = soundFileCache[resourcePath];
+        }
+        else
+        {
+            go = Resources.Load<GameObject>(resourcePath);
+
+            if (!go)
+            {
+                Debug.LogError("Resources Load Error! Path = " + resourcePath);
+                return null;
+            }
+
+            soundFileCache.Add(resourcePath, go);
+        }
+
+        GameObject InstancedGO = Instantiate<GameObject>(go);
+        string replaceName = InstancedGO.name.Replace("(Clone)", "");
+        InstancedGO.name = replaceName;
+        return InstancedGO;
+    }
+}
+
+======== 사운드 매니저 ========
+
+public class SoundManager : MonoBehaviour
+{
+    [SerializeField] SoundFactory soundFactory;
+
+    [SerializeField] Dictionary<string, Queue<GameObject>> sounds = new Dictionary<string, Queue<GameObject>>();
+
+    // Start is called before the first frame update
+    void Start()
+    {
+        for (int i = 0; i < SoundSystem.Instance.SoundMenu.SoundMenuData.Length; i++)
+        {
+            string instrumentName = SoundSystem.Instance.SoundMenu.SoundMenuData[i].instrumentName;
+            int soundCacheCount = SoundSystem.Instance.SoundMenu.SoundMenuData[i].soundCacheCount;
+            List<string> instrumentSoundPath = SoundSystem.Instance.SoundMenu.SoundMenuData[i].instrumentSoundPath;
+            Transform parent = SoundSystem.Instance.SoundMenu.SoundMenuData[i].instrument;
+            
+            GenerateSound(instrumentName, soundCacheCount, instrumentSoundPath, parent);
+        }
+    }
+
+    public bool GenerateSound(string instrumentName, int soundCacheCount, List<string> instrumentSoundPath, Transform parent)
+    {
+        if (sounds.ContainsKey(instrumentName))
+        {
+            Debug.LogWarning("Already Sound Generated Instrument = " + instrumentName);
+            return false;
+        }
+        else
+        {
+            Queue<GameObject> queue = new Queue<GameObject>();
+            List<string> soundPath = new List<string>();
+            
+            for (int i = 0; i < soundCacheCount; i++)
+            {
+                GameObject go = soundFactory.Load(SoundSystem.Instance.SoundMenu.SoundMenuPrefabPath);
+            
+                if (!go)
+                {
+                    Debug.LogError("SoundFactory GenerateSound Load Error!");
+                    return false;
+                }
+            
+                go.transform.SetParent(parent);
+                go.transform.localScale = Vector3.one;
+                go.transform.localPosition = new Vector3(transform.position.x, transform.position.y, 0);
+                go.transform.localRotation = Quaternion.Euler(Vector3.zero);
+
+                if (instrumentSoundPath[i] != String.Empty)
+                {
+                    AudioSource audio = go.AddComponent<AudioSource>();
+                    audio.playOnAwake = false;
+                    audio.clip = Resources.Load(instrumentSoundPath[i]) as AudioClip;
+                }
+                else
+                {
+                    go.AddComponent<AudioSource>();
+                }
+
+                queue.Enqueue(go);
+            }
+            
+            sounds.Add(instrumentName, queue);
+        }
+        
+        return true;
+    }
+}
+
+======== 사운드 메뉴 ========
+
+[System.Serializable]
+public class SoundMenuData
+{
+    public string instrumentName;
+    public Transform instrument;
+    public int soundCacheCount;
+    public List<string> instrumentSoundPath = new List<string>();
+}
+
+public class SoundMenu : MonoBehaviour
+{
+    [SerializeField] private string soundMenuPrefabPath;
+    public string SoundMenuPrefabPath => soundMenuPrefabPath;
+    
+    [SerializeField] SoundMenuData[] soundMenus;
+    public SoundMenuData[] SoundMenuData => soundMenus;
+}
+
+======== 사운드 ========
+
+public class Sound : MonoBehaviour
+{
+    private bool isPlay = false;
+
+    public void Play(GameObject sound)
+    {
+        sound.GetComponent<AudioSource>().Play();
+    }
+
+    public void InputSound(GameObject sound, GameObject player)
+    {
+        player.GetComponent<ControllerSound>().RightBall.GetComponent<AudioSource>().clip = sound.GetComponent<AudioSource>().clip;
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.CompareTag("Controller"))
+        {
+            if (!isPlay)
+            {
+                isPlay = true;
+                GetComponentInChildren<Transform>().Find("Marker").GetComponent<Image>().color = new Color(1,1,1,1);
+                Play(this.gameObject);
+            }
+
+            StartCoroutine(PlayDelay());
+        }
+    }
+
+    private void OnTriggerStay(Collider other)
+    {
+        if (other.gameObject.CompareTag("Controller"))
+        {
+            if (Controller.Instance.Menu2.GetState(SteamVR_Input_Sources.RightHand))
+            {
+                InputSound(this.gameObject, other.gameObject);
+                other.gameObject.GetComponent<ControllerSound>().RightBall.GetComponent<PlayerBall>().ColorChange(true);
+                other.gameObject.GetComponent<ControllerSound>().SoundMarker.transform.Find("SoundMarker").gameObject.SetActive(true);
+            }
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        GetComponentInChildren<Transform>().Find("Marker").GetComponent<Image>().color = new Color(1,1,1,25.0f / 255.0f);
+    }
+
+    IEnumerator PlayDelay()
+    {
+        yield return new WaitForSeconds(1f);
+        isPlay = false;
+    }
+}
+```
 	
 </div>
 </details>
@@ -881,3 +1061,10 @@ public class Record : MonoBehaviour
 ```
 </div>
 </details>
+	
+500여개가 넘는 사운드와 악기, 샘플오디오 등을 효율적으로 관리하기 위해서 파일 이름을 쪼개서 dictionary에 저장해
+동적으로 사운드가 생성되게 했고 그 dictionary를 이용해 옥타브와 타입 변경이 모든 악기에 적용되게끔 했습니다.
+재생되는 타이밍을 기억하는 방식으로 레코딩 기능을 구현했고
+메트로놈의 타이밍에 맞춰서 레코딩과 재생이 이루어지도록 했습니다.
+그립 스크립트가 붙은 오브젝트를 자식으로 넣으면
+다른 코딩을 추가 할 필요없이 그립과 스케일 기능이 가능해지도록 구조를 만들었습니다.
