@@ -28,6 +28,63 @@
 <div markdown="1">
 	
 ```c#
+// 옥타브를 바꾸고 싶은 오디오소스가 달린 오브젝트
+    [SerializeField] private GameObject[] sounds;
+    //
+
+    private const int plus = 12;
+    private const int minus = -12;
+
+    private string[] split;
+    private int changeIndex;
+    private string path;
+
+    private int instCount;
+
+    #endregion
+
+    // Start is called before the first frame update
+    void Start()
+    {
+
+        if (GetComponentInParent<Instrument>().padList == null)
+        {
+            return;
+        }
+
+        instCount = GetComponentInParent<Instrument>().padList.Length;
+        sounds = new GameObject[instCount];
+
+        for (int i = 0; i < instCount; i++)
+        {
+            sounds[i] = GetComponentInParent<Instrument>().padList[i].gameObject;
+        }
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+
+    }
+
+    public void OnPlusOctave()
+    {
+        for (int i = 0; i < sounds.Length; i++)
+        {
+            sounds[i].GetComponent<AudioSource>().clip = OctaveChange(PathFinder(sounds[i].GetComponent<AudioSource>().clip.name, plus));
+            sounds[i].GetComponent<InstrumentPad>().sound = sounds[i].GetComponent<AudioSource>().clip;
+        }
+    }
+
+    public void OnMinusOctave()
+    {
+        for (int i = 0; i < sounds.Length; i++)
+        {
+            sounds[i].GetComponent<AudioSource>().clip = OctaveChange(PathFinder(sounds[i].GetComponent<AudioSource>().clip.name, minus));
+            sounds[i].GetComponent<InstrumentPad>().sound = sounds[i].GetComponent<AudioSource>().clip;
+        }
+    }
+	
 private string PathFinder(string soundName, int changeNum)
     {
         char slash = '/';
