@@ -133,6 +133,69 @@ private string PathFinder(string soundName, int changeNum)
     }
 ```
 ```c#
+	
+#region 변수들
+
+    List<string> typeInst = new List<string>(3);
+
+    // 타입 바꾸려고 하는 오디오소스
+    [SerializeField] private GameObject[] sounds;
+
+    private string instName;
+    private string typeName;
+    private string typeFolder;
+
+    private const string path = "Sounds";
+
+    private bool isClassic = false;
+    private bool isElectric = false;
+    private int instCount;
+
+    #endregion
+
+    private void Start()
+    {
+        #region 시작시에 타입리스트 생성
+
+        typeInst.Add("Bass");
+        typeInst.Add("Guitar");
+        typeInst.Add("Piano");
+
+        #endregion
+
+        if (GetComponentInParent<Instrument>().padList == null) return;
+
+        instCount = GetComponentInParent<Instrument>().padList.Length;
+        sounds = new GameObject[instCount];
+
+        for (int i = 0; i < instCount; i++)
+        {
+            sounds[i] = GetComponentInParent<Instrument>().padList[i].gameObject;
+        }
+    }
+
+    public void OnToClassicTypeChange()
+    {
+        if (isClassic) return;
+
+        for (int i = 0; i < sounds.Length; i++)
+        {
+            sounds[i].GetComponent<AudioSource>().clip = TypeChange(TypeChangeParsing(sounds[i].GetComponent<AudioSource>().clip.name));
+            sounds[i].GetComponent<InstrumentPad>().sound = sounds[i].GetComponent<AudioSource>().clip;
+        }
+    }
+
+    public void OnToElectricTypeChange()
+    {
+        if (isElectric) return;
+
+        for (int i = 0; i < sounds.Length; i++)
+        {
+            sounds[i].GetComponent<AudioSource>().clip = TypeChange(TypeChangeParsing(sounds[i].GetComponent<AudioSource>().clip.name));
+            sounds[i].GetComponent<InstrumentPad>().sound = sounds[i].GetComponent<AudioSource>().clip;
+        }
+    }
+	
 private AudioClip TypeChange(string resourcePath)
     {
         AudioClip soundClip = null;
