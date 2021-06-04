@@ -20,6 +20,16 @@
 
 악기 연주 콘텐츠를 만들어 본 프로젝트입니다.
 
+> 사운드 매니저 (동적 할당)
+
+<details>
+<summary>코드 보기</summary>
+<div markdown="1">
+
+	
+	
+</div>
+</details>
 
 > 사운드 옥타브 및 타입 변경
 
