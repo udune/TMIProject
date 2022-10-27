@@ -69,7 +69,6 @@ public class SoundManager : MonoBehaviour
 
     [SerializeField] Dictionary<string, Queue<GameObject>> sounds = new Dictionary<string, Queue<GameObject>>();
 
-    // Start is called before the first frame update
     void Start()
     {
         for (int i = 0; i < SoundSystem.Instance.SoundMenu.SoundMenuData.Length; i++)
@@ -233,7 +232,6 @@ public class Sound : MonoBehaviour
 
     #endregion
 
-    // Start is called before the first frame update
     void Start()
     {
 
@@ -250,13 +248,7 @@ public class Sound : MonoBehaviour
             sounds[i] = GetComponentInParent<Instrument>().padList[i].gameObject;
         }
     }
-
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
-
+    
     public void OnPlusOctave()
     {
         for (int i = 0; i < sounds.Length; i++)
@@ -690,7 +682,6 @@ public class Record : MonoBehaviour
 <div markdown="1">	
 
 ```c#
-// Update is called once per frame
     void Update()
     {
         switch (Controller.Instance.GrabStates)
@@ -858,7 +849,6 @@ public class Record : MonoBehaviour
     [SerializeField] float rndSpeedMin;
     [SerializeField] float rndSpeedMax;
 
-    // Start is called before the first frame update
     void Start()
     {
         GenerateSoundBand();
@@ -961,7 +951,6 @@ public class Record : MonoBehaviour
 		
 	}
 	
-	// Update is called once per frame
 	void Update () {
 		aSource.GetSpectrumData (sampleArrayLeft, 0, FFTWindow.BlackmanHarris);
 		aSource.GetSpectrumData (sampleArrayRight, 1, FFTWindow.BlackmanHarris);
