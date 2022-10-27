@@ -1,4 +1,4 @@
-# 김민찬의 포트폴리오입니다
+# Minchan Kim TMI Project Portfolio
 
 
 ## TMI Project
